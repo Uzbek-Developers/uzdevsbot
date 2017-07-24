@@ -39,7 +39,7 @@ async def greeting(chat, match):
     greeting = format_text('''
     Салом, {name}. 🖐 
     ''')
-    logger.info('Got greeting from %s', chat.sender)
+    logger.info('Got start from %s', chat.sender)
     await chat.send_text(
         greeting.format(name=chat.sender['first_name']))
 
@@ -62,3 +62,18 @@ async def greeting(chat, match):
     logger.info('Got goodbye from %s', chat.sender)
     await chat.send_text(
         greeting.format(name=chat.sender['first_name']))
+
+
+@bot.default
+async def unknown(chat, match):
+    greeting = format_text('''
+    {name}, қизиқиш билдирганингиз учун раҳмат. Бот ҳали битгани йўқ.
+    ''')
+    logger.info('Got unknown command from %s', chat.sender)
+    await chat.send_text(
+        greeting.format(name=chat.sender['first_name']))
+
+
+@bot.command(r'/gif')
+async def gif(chat, match):
+    await chat.send_document(document=open("funny.gif", "rb"))
