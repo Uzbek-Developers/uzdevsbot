@@ -1,0 +1,5 @@
+aiotg
+aiohttp
+asyncpg
+uvloop
+pre-commit
