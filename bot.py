@@ -2,9 +2,7 @@
 import os
 import logging
 import json
-
-# Helpers
-from utils.helpers import format_text
+import textwrap
 
 # Bot
 from aiotg import Bot
@@ -19,6 +17,10 @@ bot = Bot(api_token=api_token, name=bot_name)
 # Logging
 logger = logging.getLogger('bot')
 logging.basicConfig(level=logging.DEBUG)
+
+
+def format_text(text):
+    return textwrap.dedent(text)
 
 
 @bot.command(r'salom')
