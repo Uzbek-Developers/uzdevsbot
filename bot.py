@@ -32,3 +32,33 @@ async def greeting(chat, match):
     logger.info('Got greeting from %s', chat.sender)
     await chat.send_text(
         greeting.format(name=chat.sender['first_name']))
+
+
+@bot.command(r'/start')
+async def greeting(chat, match):
+    greeting = format_text('''
+    Салом, {name}. 🖐 
+    ''')
+    logger.info('Got greeting from %s', chat.sender)
+    await chat.send_text(
+        greeting.format(name=chat.sender['first_name']))
+
+
+@bot.command(r'/test')
+async def greeting(chat, match):
+    greeting = format_text('''
+    {name} 🙄 
+    ''')
+    logger.info('Got start from %s', chat.sender)
+    await chat.send_text(
+        greeting.format(name=chat.sender['first_name']))
+
+
+@bot.command(r'/stop')
+async def greeting(chat, match):
+    greeting = format_text('''
+    Хайр, {name}. 🖐 
+    ''')
+    logger.info('Got goodbye from %s', chat.sender)
+    await chat.send_text(
+        greeting.format(name=chat.sender['first_name']))
