@@ -7,9 +7,6 @@ import uvloop
 # Asyncpg
 from asyncpg import create_pool as create_pg_pool
 
-# Aiobotocore
-from aiobotocore import get_session as boto_session
-
 # Bot
 from bot import bot
 
