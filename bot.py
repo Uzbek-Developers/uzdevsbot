@@ -29,7 +29,7 @@ def format_text(text):
 
 @bot.command(r'salom')
 @bot.command(r'салом')
-async def greeting(chat, match):
+async def salom_command(chat, match):
     greeting = format_text('''
     Салом, {name}. 🖐 
     ''')
@@ -39,7 +39,7 @@ async def greeting(chat, match):
 
 
 @bot.command(r'/start')
-async def greeting(chat, match):
+async def start_command(chat, match):
     greeting = format_text('''
     Салом, {name}. 🖐 
     ''')
@@ -49,7 +49,7 @@ async def greeting(chat, match):
 
 
 @bot.command(r'/bitcoin')
-async def bitcoin(chat, match):
+async def bitcoin_command(chat, match):
     url = 'https://blockchain.info/ticker'
     async with bot.session.get(url) as s:
         info = await s.json()
@@ -68,9 +68,9 @@ async def bitcoin(chat, match):
 
 
 @bot.command(r'/stop')
-async def greeting(chat, match):
+async def stop_command(chat, match):
     greeting = format_text('''
-    Хайр, {name}. 🖐 
+    {name}, мен унақа гапларни тушунмайман.
     ''')
     logger.info('Got goodbye from %s', chat.sender)
     await chat.send_text(
@@ -78,7 +78,7 @@ async def greeting(chat, match):
 
 
 @bot.default
-async def unknown(chat, match):
+async def unknown_command(chat, match):
     greeting = format_text('''
     {name}, қизиқиш билдирганингиз учун раҳмат. Бот ҳали битгани йўқ.
     ''')
@@ -88,12 +88,12 @@ async def unknown(chat, match):
 
 
 @bot.command(r'/gif')
-async def gif(chat, match):
+async def gif_command(chat, match):
     await chat.send_document(document=open('media/funny.gif', 'rb'))
 
 
 @bot.handle('new_chat_member')
-async def new_chat_member(chat, member):
+async def new_chat_member_event(chat, member):
     logger.info('New chat member %s joined group', member['first_name'])
     text = format_text('''
     {greet}, {name}!
@@ -123,7 +123,7 @@ async def new_chat_member(chat, member):
 
 
 @bot.handle('left_chat_member')
-async def left_chat_member(chat, member):
+async def left_chat_member_event(chat, member):
     logger.info('Chat member %s left group', member['first_name'])
     text = format_text('''
     {farewell}, {name}! Яхши-ёмон гапларга узр! Ишларга омад. {emoticon}
