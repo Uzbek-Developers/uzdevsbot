@@ -16,7 +16,7 @@ $ source venv/bin/activate
 
 ## How to prepare database
 ```shell
-$ psql < schema.sql
+$ psql < database/schema.sql
 ```
 
 ## How to run
