@@ -77,3 +77,10 @@ async def unknown(chat, match):
 @bot.command(r'/gif')
 async def gif(chat, match):
     await chat.send_document(document=open("media/funny.gif", "rb"))
+
+
+@bot.handle('new_chat_member')
+async def new_chat_member(chat, match):
+    logger.info('chat  ----> %s', chat)
+    logger.info('match ----> %s', match)
+    await chat.send_text('somebody came')
