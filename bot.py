@@ -3,6 +3,7 @@ import os
 import logging
 import json
 import textwrap
+import random
 
 # Bot
 from aiotg import Bot
