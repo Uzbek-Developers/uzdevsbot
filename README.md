@@ -22,5 +22,10 @@ There are 2 running modes already bundled.
 1. `loop` mode (local or server) `python main.py loop`
 2. `webhook` mode (server) `python main.py` (default)
 
+## How to deploy
+```shell
+$ git push heroku master
+```
+
 ## Contributors
 Uzbek Developers group
