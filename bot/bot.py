@@ -134,7 +134,7 @@ async def left_chat_member_event(chat, member):
     )
     farewell = random.choice(farewells)
     emoticons = (
-        '😌', '😕', '🙁', ' ☹️', '😫', '😩', '😢', '🤕'
+        '😌', '😕', '🙁', '☹️', '😫', '😩', '😢', '🤕'
     )
     emoticon = random.choice(emoticons)
 
