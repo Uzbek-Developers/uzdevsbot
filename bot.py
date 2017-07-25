@@ -9,8 +9,7 @@ import random
 from aiotg import Bot
 
 # Queries
-from queries import user_exists
-from queries import insert_user
+from queries import user_exists, insert_user, deactivate_user
 
 # Variables
 api_token = os.environ.get('API_TOKEN')
@@ -130,6 +129,9 @@ async def left_chat_member(chat, member):
         '😌', '😕', '🙁',' ☹️', '😫', '😩', '😢', '🤕'
     )
     emoticon = random.choice(emoticons)
+
+    if await user_exists(chat.bot.pg_pool, member):
+        await deactivate_user(chat.bot.pg_pool, member)
 
     await chat.send_text(
         text.format(name=member['first_name'], farewell=farewell, emoticon=emoticon))

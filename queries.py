@@ -37,3 +37,20 @@ async def insert_user(pool, user):
 
     finally:
         await pool.release(conn)
+
+
+async def deactivate_user(pool, user):
+    query = '''
+    update users
+    set is_active = false
+    where id=$1
+    '''
+
+    conn = await pool.acquire()
+
+    try:
+        id = user.get('id')
+        await conn.execute(query, id)
+
+    finally:
+        await pool.release(conn)
