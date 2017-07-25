@@ -8,6 +8,10 @@ import random
 # Bot
 from aiotg import Bot
 
+# Queries
+from queries import user_exists
+from queries import insert_user
+
 # Variables
 api_token = os.environ.get('API_TOKEN')
 bot_name = os.environ.get('BOT_NAME')
@@ -81,8 +85,8 @@ async def gif(chat, match):
 
 
 @bot.handle('new_chat_member')
-async def new_chat_member(chat, message):
-    logger.info('New chat member %s joined group', message['first_name'])
+async def new_chat_member(chat, member):
+    logger.info('New chat member %s joined group', member['first_name'])
     text = format_text('''
     {greet}, {name}!
 
@@ -103,13 +107,16 @@ async def new_chat_member(chat, message):
     )
     emoticon = random.choice(emoticons)
 
+    if not await user_exists(chat.bot.pg_pool, member):
+        await insert_user(chat.bot.pg_pool, member)
+
     await chat.send_text(
-        text.format(name=message['first_name'], greet=greet, emoticon=emoticon))
+        text.format(name=member['first_name'], greet=greet, emoticon=emoticon))
 
 
 @bot.handle('left_chat_member')
-async def left_chat_member(chat, message):
-    logger.info('Chat member %s left group', message['first_name'])
+async def left_chat_member(chat, member):
+    logger.info('Chat member %s left group', member['first_name'])
     text = format_text('''
     {farewell}, {name}! Яхши-ёмон гапларга узр! Ишларга омад. {emoticon}
     ''')
@@ -125,4 +132,4 @@ async def left_chat_member(chat, message):
     emoticon = random.choice(emoticons)
 
     await chat.send_text(
-        text.format(name=message['first_name'], farewell=farewell, emoticon=emoticon))
+        text.format(name=member['first_name'], farewell=farewell, emoticon=emoticon))
