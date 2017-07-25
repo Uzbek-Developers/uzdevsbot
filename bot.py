@@ -76,4 +76,4 @@ async def unknown(chat, match):
 
 @bot.command(r'/gif')
 async def gif(chat, match):
-    await chat.send_document(document=open("funny.gif", "rb"))
+    await chat.send_document(document=open("media/funny.gif", "rb"))
