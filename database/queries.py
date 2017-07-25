@@ -1,6 +1,3 @@
-import json
-
-
 async def user_exists(pool, user):
     query = '''
     select exists(select id from users where id = $1)

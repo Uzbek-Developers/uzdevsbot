@@ -1,7 +1,6 @@
 # Misc
 import os
 import logging
-import json
 import textwrap
 import random
 
@@ -31,7 +30,7 @@ def format_text(text):
 @bot.command(r'салом')
 async def salom_command(chat, match):
     greeting = format_text('''
-    Салом, {name}. 🖐 
+    Салом, {name}. 🖐
     ''')
     logger.info('Got greeting from %s', chat.sender)
     await chat.send_text(
@@ -41,7 +40,7 @@ async def salom_command(chat, match):
 @bot.command(r'/start')
 async def start_command(chat, match):
     greeting = format_text('''
-    Салом, {name}. 🖐 
+    Салом, {name}. 🖐
     ''')
     logger.info('Got start from %s', chat.sender)
     await chat.send_text(
@@ -135,7 +134,7 @@ async def left_chat_member_event(chat, member):
     )
     farewell = random.choice(farewells)
     emoticons = (
-        '😌', '😕', '🙁',' ☹️', '😫', '😩', '😢', '🤕'
+        '😌', '😕', '🙁', ' ☹️', '😫', '😩', '😢', '🤕'
     )
     emoticon = random.choice(emoticons)
 

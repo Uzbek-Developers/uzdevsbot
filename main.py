@@ -9,7 +9,6 @@ from bot.bot import bot
 
 # Misc
 import os
-import sys
 import logging
 
 
@@ -17,7 +16,8 @@ async def run_bot():
     try:
         await bot.loop()
     except:
-        bot.logger.error('Cannot run bot. Check environment variables and try again.')
+        bot.logger.error(
+            'Cannot run bot. Check environment variables and try again.')
 
 
 async def make_pg_pool():
@@ -38,7 +38,6 @@ setattr(bot, 'logger', logging)
 # Attach postgres connection pool instance to bot
 pg_pool = loop.run_until_complete(make_pg_pool())
 setattr(bot, 'pg_pool', pg_pool)
-
 
 
 if __name__ == '__main__':
