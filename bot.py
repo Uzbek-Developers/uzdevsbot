@@ -59,13 +59,14 @@ async def bitcoin(chat, match):
         sell = usd['sell']
         buy = usd['buy']
         text = format_text('''
-        Биткойн
+        {name}, биткойн курси қуйидагича.
+
         Курс:  {last}{symbol}
         ⬆️ Сотасиз: {sell}{symbol}
         ⬇️ Оласиз:  {buy}{symbol}
         ''')
         await chat.send_text(
-            text.format(last=last, symbol=symbol, sell=sell, buy=buy))
+            text.format(name=chat.sender['first_name'], last=last, symbol=symbol, sell=sell, buy=buy))
 
 
 @bot.command(r'/stop')
