@@ -48,14 +48,23 @@ async def greeting(chat, match):
         greeting.format(name=chat.sender['first_name']))
 
 
-@bot.command(r'/test')
-async def greeting(chat, match):
-    greeting = format_text('''
-    {name} 🙄 
-    ''')
-    logger.info('Got start from %s', chat.sender)
-    await chat.send_text(
-        greeting.format(name=chat.sender['first_name']))
+@bot.command(r'/bitcoin')
+async def bitcoin(chat, match):
+    url = 'https://blockchain.info/ticker'
+    async with bot.session.get(url) as s:
+        info = await s.json()
+        usd = info['USD']
+        symbol = usd['symbol']
+        last = usd['last']
+        sell = usd['sell']
+        buy = usd['buy']
+        text = format_text('''
+        Биткойн курс: {last}{symbol}
+        Сотиш:        {sell}{symbol}
+        Сотиб олиш:   {buy}{symbol}
+        ''')
+        await chat.send_text(
+            text.format(last=last, symbol=symbol, sell=sell, buy=buy))
 
 
 @bot.command(r'/stop')
@@ -80,7 +89,7 @@ async def unknown(chat, match):
 
 @bot.command(r'/gif')
 async def gif(chat, match):
-    await chat.send_document(document=open("media/funny.gif", "rb"))
+    await chat.send_document(document=open('media/funny.gif', 'rb'))
 
 
 @bot.handle('new_chat_member')
