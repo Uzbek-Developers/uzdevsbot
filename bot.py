@@ -61,8 +61,8 @@ async def bitcoin(chat, match):
         text = format_text('''
         Биткойн
         Курс:  {last}{symbol}
-        ⬆️ Сотиляпти: {sell}{symbol}
-        ⬇️ Олиняпти:  {buy}{symbol}
+        ⬆️ Сотасиз: {sell}{symbol}
+        ⬇️ Оласиз:  {buy}{symbol}
         ''')
         await chat.send_text(
             text.format(last=last, symbol=symbol, sell=sell, buy=buy))
