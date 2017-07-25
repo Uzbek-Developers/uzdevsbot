@@ -90,7 +90,7 @@ async def new_chat_member(chat, message):
 
     Ушбу гуруҳ ўзбек дастурчилари учун очилган бўлиб, бу ерда аъзолар бир-бирлари билан тажриба алмашишлари, савол-жавоб қилишлари ва шу турдаги фойдали нарсаларни (технологиялар, янгиликлар) ўзаро улашишлари кўзда тутилган.
 
-    {name}, гуруҳимизда фаол бўласиз деган умиддаман. 🙃
+    {name}, гуруҳимизда фаол бўласиз деган умиддаман. {emoticon}
     ''')
     greetings = (
         'Ассалому алайкум', 'Салом',
@@ -98,18 +98,20 @@ async def new_chat_member(chat, message):
         'Хэллоу', 'Чао', 'Сава'
     )
     greet = random.choice(greetings)
+    emoticons = (
+        '😎', '🤠'
+    )
+    emoticon = random.choice(emoticons)
 
     await chat.send_text(
-        text.format(name=message['first_name'], greet=greet))
+        text.format(name=message['first_name'], greet=greet, emoticon=emoticon))
 
 
 @bot.handle('left_chat_member')
 async def left_chat_member(chat, message):
     logger.info('Chat member %s left group', message['first_name'])
     text = format_text('''
-    {farewell}, {name}!
-
-    Яхши—ёмон гапларга узр! Ишларга омад. {emoticon}
+    {farewell}, {name}! Яхши-ёмон гапларга узр! Ишларга омад. {emoticon}
     ''')
     farewells = (
         'Эх, гуруҳни тарк этганиз яхши бўлмадида', 'Яхши боринг',
@@ -118,7 +120,7 @@ async def left_chat_member(chat, message):
     )
     farewell = random.choice(farewells)
     emoticons = (
-        '', '', '', '', '', '', '', ''
+        '😌', '😕', '🙁', ☹️'', '😫', '😩', '😢', '🤕'
     )
     emoticon = random.choice(emoticons)
 
