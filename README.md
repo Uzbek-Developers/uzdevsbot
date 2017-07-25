@@ -12,6 +12,11 @@ $ source venv/bin/activate
 (venv) $ pip install -r requirements.txt
 ```
 
+## How to prepare database
+```shell
+$ psql < schema.sql
+```
+
 ## How to run
 There are 2 running modes already bundled.
 1. `loop` mode (local or server) `python main.py loop`
