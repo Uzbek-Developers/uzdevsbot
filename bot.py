@@ -80,7 +80,11 @@ async def gif(chat, match):
 
 
 @bot.handle('new_chat_member')
-async def new_chat_member(chat, match):
-    logger.info('chat  ----> %s', chat)
-    logger.info('match ----> %s', match)
-    await chat.send_text('somebody came')
+async def new_chat_member(chat, message):
+    logger.info('New chat member %s joined group', message['first_name'])
+    greeting = format_text('''
+    {name}, бизнинг гуруҳга хуш келибсиз!
+    ''')
+    await chat.send_text(
+        greeting.format(name=message['first_name']))
+
