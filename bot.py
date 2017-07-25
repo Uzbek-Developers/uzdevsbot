@@ -9,7 +9,7 @@ import random
 from aiotg import Bot
 
 # Queries
-from queries import user_exists, insert_user, deactivate_user
+from database.queries import user_exists, insert_user, deactivate_user
 
 # Variables
 api_token = os.environ.get('API_TOKEN')
