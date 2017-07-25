@@ -8,7 +8,7 @@ import asyncio
 from asyncpg import create_pool as create_pg_pool
 
 # Bot
-from bot import bot
+from bot.bot import bot
 
 # Misc
 import os

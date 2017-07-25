@@ -1,7 +1,7 @@
 # uzdevsbot
 Telegram bot for Uzbek Developers group
 
-![alt text](./logo.png "UzDevsBot")
+![alt text](./media/logo.png "UzDevsBot")
 
 ## Dependencies
 1. Python 3
