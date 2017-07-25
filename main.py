@@ -2,7 +2,7 @@
 import asyncio
 
 # UVLoop
-import uvloop
+# import uvloop
 
 # Asyncpg
 from asyncpg import create_pool as create_pg_pool
@@ -16,7 +16,7 @@ import sys
 import logging
 
 # Use uvloop
-asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
+# asyncio.set_event_loop_policy(uvloop.EventLoopPolicy())
 
 
 async def run_bot():
