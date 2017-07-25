@@ -1,5 +1,1 @@
-aiotg
-aiohttp
-asyncpg
-uvloop
-pre-commit
+-r requirements/base.txt
