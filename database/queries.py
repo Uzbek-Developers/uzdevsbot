@@ -65,7 +65,7 @@ async def insert_text(pool, sender, text):
     conn = await pool.acquire()
 
     try:
-        await conn.execute(query, sender, json.dumps(text))
+        await conn.execute(query, json.dumps(sender), text)
 
     finally:
         await pool.release(conn)
