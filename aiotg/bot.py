@@ -525,19 +525,14 @@ class Bot:
         await response.release()
 
     def _process_message(self, message):
-        logger.debug("_process_message %s", message)
         chat = Chat.from_message(self, message)
-        logger.debug("chat is group? %s", chat.is_group())
 
         for mt in MESSAGE_TYPES:
-            logger.debug("mt %s", mt)
             if mt in message:
-                logger.debug("mt in message %s", message)
                 self.track(message, mt)
                 return self._handlers[mt](chat, message[mt])
 
         if "text" not in message:
-            logger.debug("no text in message %s", message)
             return
 
         for patterns, handler in self._commands:
@@ -593,9 +588,7 @@ class Bot:
 
         # Determine update type starting with message updates
         for ut in MESSAGE_UPDATES:
-            logger.debug("ut %s", ut)
             if ut in update:
-                logger.debug("ut in update %s", update)
                 coro = self._process_message(update[ut])
                 break
         else:

@@ -146,5 +146,14 @@ async def left_chat_member_event(chat, member):
 
 
 @bot.group_message
-async def get_group_messages(chat, message):
-    logger.info('Got message from group %s', message)
+async def group_message_event(chat, message):
+    sender = message.get('from')
+    sender_id = sender.get('id')  # noqa
+    sender_name = sender.get('first_name')
+    chat = message.get('chat')
+    group_id = chat.get('id')
+    message_date = message.get('date')
+    message_text = message.get('text')
+    logger.info('Got message from group %s at %s', (group_id, message_date))
+    logger.info('Sender %s', (sender_name))
+    logger.info('Text ->', message_text)
