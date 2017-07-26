@@ -150,4 +150,4 @@ async def about_command(chat, match):
     Бот https://github.com/Uzbek-Developers/uzdevsbot
     ''')
     logger.info('Got about from %s', chat.sender)
-    await chat.send_text(text)
+    await chat.send_text(text, disable_web_page_preview=True)
