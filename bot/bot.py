@@ -142,3 +142,12 @@ async def group_message_event(chat, message):
     text = message.get('text')
     logger.info('Got message from group at %s', message_date)
     await insert_text(chat.bot.pg_pool, sender, text)
+
+
+@bot.command(r'/about')
+async def about_command(chat, match):
+    text = format_text('''
+    Бот https://github.com/Uzbek-Developers/uzdevsbot
+    ''')
+    logger.info('Got about from %s', chat.sender)
+    await chat.send_text(text)
