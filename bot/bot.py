@@ -48,23 +48,23 @@ async def start_command(chat, match):
         greeting.format(name=chat.sender['first_name']))
 
 
-@bot.command(r'/bitcoin')
-async def bitcoin_command(chat, match):
-    url = 'https://blockchain.info/ticker'
-    async with bot.session.get(url) as s:
-        info = await s.json()
-        usd = info['USD']
-        symbol = usd['symbol']
-        sell = usd['sell']
-        buy = usd['buy']
-        text = format_text('''
-        {name}, ҳозирги биткойн курси қуйидагича.
+# @bot.command(r'/bitcoin')
+# async def bitcoin_command(chat, match):
+#     url = 'https://blockchain.info/ticker'
+#     async with bot.session.get(url) as s:
+#         info = await s.json()
+#         usd = info['USD']
+#         symbol = usd['symbol']
+#         sell = usd['sell']
+#         buy = usd['buy']
+#         text = format_text('''
+#         {name}, ҳозирги биткойн курси қуйидагича.
 
-        ⬆️ Сотасиз: {sell}{symbol}
-        ⬇️ Оласиз:  {buy}{symbol}
-        ''')
-        await chat.send_text(
-            text.format(name=chat.sender['first_name'], symbol=symbol, sell=sell, buy=buy))
+#         ⬆️ Сотасиз: {sell}{symbol}
+#         ⬇️ Оласиз:  {buy}{symbol}
+#         ''')
+#         await chat.send_text(
+#             text.format(name=chat.sender['first_name'], symbol=symbol, sell=sell, buy=buy))
 
 
 @bot.command(r'/stop')
