@@ -67,6 +67,7 @@ class Bot:
         self._callbacks = []
         self._inlines = []
         self._default = lambda chat, message: None
+        self._group_message = lambda chat, message: None
         self._default_callback = lambda chat, cq: None
         self._default_inline = lambda iq: None
 
@@ -192,6 +193,20 @@ class Bot:
         >>>     return chat.reply(message["text"])
         """
         self._default = callback
+        return callback
+
+    def group_message(self, callback):
+        """
+        Set callback for group command that is called on unrecognized
+        commands for group chats
+
+        :Example:
+
+        >>> @bot.group
+        >>> def echo(chat, message):
+        >>>     return chat.reply(message["text"])
+        """
+        self._group_message = callback
         return callback
 
     def add_inline(self, regexp, fn):
@@ -535,6 +550,10 @@ class Bot:
         if not chat.is_group():
             self.track(message, "default")
             return self._default(chat, message)
+
+        else:
+            self.track(message, "group")
+            return self._group_message(chat, message)
 
     def _process_inline_query(self, query):
         iq = InlineQuery(self, query)

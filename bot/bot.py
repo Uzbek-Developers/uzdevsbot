@@ -143,3 +143,8 @@ async def left_chat_member_event(chat, member):
 
     await chat.send_text(
         text.format(name=member['first_name'], farewell=farewell, emoticon=emoticon))
+
+
+@bot.group_message
+async def get_group_messages(chat, message):
+    logger.info('Got message from group %s', message)
