@@ -134,6 +134,7 @@ async def left_chat_member_event(chat, member):
         text.format(name=member['first_name'], farewell=farewell, emoticon=emoticon))
 
 
+@bot.unknown
 @bot.group_message
 async def group_message_event(chat, message):
     sender = message.get('from')
