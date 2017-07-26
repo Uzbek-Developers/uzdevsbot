@@ -1,3 +1,6 @@
+import json
+
+
 async def user_exists(pool, user):
     query = '''
     select exists(select id from users where id = $1)
@@ -62,7 +65,7 @@ async def insert_text(pool, sender, text):
     conn = await pool.acquire()
 
     try:
-        await conn.execute(query, sender, text)
+        await conn.execute(query, sender, json.dumps(text))
 
     finally:
         await pool.release(conn)
