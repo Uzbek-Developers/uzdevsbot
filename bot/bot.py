@@ -147,7 +147,7 @@ async def group_message_event(chat, message):
 @bot.command(r'/about')
 async def about_command(chat, match):
     text = format_text('''
-    Бот https://github.com/Uzbek-Developers/uzdevsbot
+    https://github.com/Uzbek-Developers/uzdevsbot
     ''')
     logger.info('Got about from %s', chat.sender)
     await chat.send_text(text, disable_web_page_preview=True)
