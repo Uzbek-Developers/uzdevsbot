@@ -12,3 +12,11 @@ create table if not exists users (
   is_active boolean default true,
   joined timestamptz default timezone('Asia/Tashkent'::text, now())
 );
+
+
+create table if not exists history (
+  id bigint primary key,
+  sender jsonb,
+  timestamp timestamptz default timezone('Asia/Tashkent'::text, now()),
+  text citext
+);
