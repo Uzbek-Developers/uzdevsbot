@@ -19,7 +19,6 @@ API_URL = "https://api.telegram.org"
 API_TIMEOUT = 60
 RETRY_TIMEOUT = 30
 RETRY_CODES = [429, 500, 502, 503, 504]
-BOTAN_URL = "https://api.botan.io/track"
 
 # Message types to be handled by bot.handle(...)
 MESSAGE_TYPES = [
@@ -446,14 +445,6 @@ class Bot:
             **options
         )
 
-    def track(self, message, name="Message"):
-        """
-        Track message using http://botan.io
-        Set botan_token to make it work
-        """
-        if self.botan_token:
-            asyncio.ensure_future(self._track(message, name))
-
     def stop(self):
         self._running = False
 
@@ -509,27 +500,11 @@ class Bot:
             # 😶
             pass
 
-    async def _track(self, message, name):
-        response = await self.session.post(
-            BOTAN_URL,
-            params={
-                "token": self.botan_token,
-                "uid": message["from"]["id"],
-                "name": name
-            },
-            data=json.dumps(message),
-            headers={'content-type': 'application/json'}
-        )
-        if response.status != 200:
-            logger.info("error submiting stats %d", response.status)
-        await response.release()
-
     def _process_message(self, message):
         chat = Chat.from_message(self, message)
 
         for mt in MESSAGE_TYPES:
             if mt in message:
-                self.track(message, mt)
                 return self._handlers[mt](chat, message[mt])
 
         if "text" not in message:
@@ -538,16 +513,13 @@ class Bot:
         for patterns, handler in self._commands:
             m = re.search(patterns, message["text"], re.I)
             if m:
-                self.track(message, handler.__name__)
                 return handler(chat, m)
 
         # No match, run default if it's a 1to1 chat
         if not chat.is_group():
-            self.track(message, "default")
             return self._default(chat, message)
 
         else:
-            self.track(message, "group")
             return self._group_message(chat, message)
 
     def _process_inline_query(self, query):
