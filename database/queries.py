@@ -51,3 +51,18 @@ async def deactivate_user(pool, user):
 
     finally:
         await pool.release(conn)
+
+
+async def insert_text(pool, sender, text):
+    query = '''
+    insert into history(sender, text)
+    values ($1, $2)
+    '''
+
+    conn = await pool.acquire()
+
+    try:
+        await conn.execute(query, sender, text)
+
+    finally:
+        await pool.release(conn)

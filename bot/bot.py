@@ -9,6 +9,7 @@ from aiotg import Bot
 
 # Queries
 from database.queries import user_exists, insert_user, deactivate_user
+from database.queries import insert_text
 
 # Variables
 api_token = os.environ.get('API_TOKEN')
@@ -148,12 +149,7 @@ async def left_chat_member_event(chat, member):
 @bot.group_message
 async def group_message_event(chat, message):
     sender = message.get('from')
-    sender_id = sender.get('id')  # noqa
-    sender_name = sender.get('first_name')
-    chat = message.get('chat')
-    group_id = chat.get('id')
     message_date = message.get('date')
-    message_text = message.get('text')
-    logger.info('Got message from group %s at %s', group_id, message_date)
-    logger.info('Sender %s', sender_name)
-    logger.info('Text -> %s', message_text)
+    text = message.get('text')
+    logger.info('Got message from group at %s', message_date)
+    await insert_text(chat.bot.pg_pool, sender, text)

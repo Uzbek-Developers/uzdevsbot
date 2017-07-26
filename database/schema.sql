@@ -15,7 +15,7 @@ create table if not exists users (
 
 
 create table if not exists history (
-  id bigint primary key,
+  id bigserial primary key,
   sender jsonb,
   timestamp timestamptz default timezone('Asia/Tashkent'::text, now()),
   text citext
