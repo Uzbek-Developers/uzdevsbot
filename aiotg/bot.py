@@ -512,6 +512,7 @@ class Bot:
     def _process_message(self, message):
         logger.debug("_process_message %s", message)
         chat = Chat.from_message(self, message)
+        logger.debug("chat is group? %s", chat.is_group())
 
         for mt in MESSAGE_TYPES:
             logger.debug("mt %s", mt)
