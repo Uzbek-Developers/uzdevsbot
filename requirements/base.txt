@@ -1,4 +1,4 @@
-aiotg
+# aiotg
 aiohttp
 asyncpg
 pre-commit
