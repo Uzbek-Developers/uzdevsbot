@@ -77,16 +77,6 @@ async def stop_command(chat, match):
         greeting.format(name=chat.sender['first_name']))
 
 
-@bot.default
-async def unknown_command(chat, match):
-    greeting = format_text('''
-    {name}, қизиқиш билдирганингиз учун раҳмат. Бот ҳали битгани йўқ.
-    ''')
-    logger.info('Got unknown command from %s', chat.sender)
-    await chat.send_text(
-        greeting.format(name=chat.sender['first_name']))
-
-
 @bot.command(r'/gif')
 async def gif_command(chat, match):
     await chat.send_document(document=open('media/funny.gif', 'rb'))
@@ -106,8 +96,7 @@ async def new_chat_member_event(chat, member):
     ''')
     greetings = (
         'Ассалому алайкум', 'Салом',
-        'Ҳайрли кун', 'Вау! Кутиб олинг, гуруҳимизнинг янги аъзоси',
-        'Хэллоу', 'Чао', 'Сава'
+        'Ҳайрли кун', 'Гуруҳимизнинг янги аъзоси',
     )
     greet = random.choice(greetings)
     emoticons = (
@@ -129,9 +118,8 @@ async def left_chat_member_event(chat, member):
     {farewell}, {name}! Яхши-ёмон гапларга узр! Ишларга омад. {emoticon}
     ''')
     farewells = (
-        'Эх аттанг, гуруҳни тарк этганиз яхши бўлмадида', 'Яхши боринг',
-        'Кутилмаганда гуруҳимиздан чиқиб кетган', 'Яхши гаплашиб ўтиргандик',
-        'Хайр', 'Кўришгунча', 'Алвидо'
+        'Яхши боринг', 'Кутилмаганда гуруҳимиздан чиқиб кетган',
+        'Яхши гаплашиб ўтиргандик', 'Хайр', 'Кўришгунча', 'Алвидо'
     )
     farewell = random.choice(farewells)
     emoticons = (
