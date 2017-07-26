@@ -155,5 +155,5 @@ async def group_message_event(chat, message):
     message_date = message.get('date')
     message_text = message.get('text')
     logger.info('Got message from group %s at %s', group_id, message_date)
-    logger.info('Sender %s', (sender_name))
+    logger.info('Sender %s', sender_name)
     logger.info('Text ->', message_text)
