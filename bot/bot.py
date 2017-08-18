@@ -33,19 +33,24 @@ async def new_chat_member_event(chat, member):
     text = format_text('''
     {greet}, {name}!
 
-    Гуруҳимизга хуш келибсиз!
+    Guruhga xush kelibsiz!
 
-    Ушбу гуруҳ ўзбек дастурчилари учун очилган бўлиб, бу ерда аъзолар бир-бирлари билан тажриба алмашишлари, савол-жавоб қилишлари ва шу турдаги фойдали нарсаларни (технологиялар, янгиликлар) ўзаро улашишлари кўзда тутилган.
+    Ushbu guruh o'zbek dasturchilari uchun ochilgan bo'lib, bu yerda guruh a'zolar bir-birlari bilan tajriba almashishlari, savol-javob qilishlari va shu sohadagi foydali narsalar (texnologiyalar, yangiliklar) ni o'zaro ulashishlari maqsad qilingan.
 
-    {name}, гуруҳимизда фаол бўласиз деган умиддаман. {emoticon}
+    {name}, {wish}. {emoticon}
     ''')
     greetings = (
-        'Ассалому алайкум', 'Салом',
-        'Ҳайрли кун', 'Гуруҳимизнинг янги аъзоси',
+        'Assalomu alaykum', 'Salom', 'Guruhimizning yangi a''zosi',
     )
     greet = random.choice(greetings)
+    wishes = (
+        'guruhda faol bo''lasiz degan umiddaman',
+        'ishlaringizga omad',
+        'yana bir hush kelibsiz',
+    )
+    wish = random.choices(wishes)
     emoticons = (
-        '😎', '🤠'
+        '😎', '🤠', '😃', '😊', '🙂', '🤓'
     )
     emoticon = random.choice(emoticons)
 
@@ -53,20 +58,26 @@ async def new_chat_member_event(chat, member):
         await insert_user(chat.bot.pg_pool, member)
 
     await chat.send_text(
-        text.format(name=member['first_name'], greet=greet, emoticon=emoticon))
+        text.format(name=member['first_name'], greet=greet, wish=wish, emoticon=emoticon))
 
 
 @bot.handle('left_chat_member')
 async def left_chat_member_event(chat, member):
     logger.info('Chat member %s left group', member['first_name'])
     text = format_text('''
-    {farewell}, {name}! Яхши-ёмон гапларга узр! Ишларга омад. {emoticon}
+    {farewell}, {name}! Yaxshi-yomon gaplarga uzr! {wish}. {emoticon}
     ''')
     farewells = (
-        'Яхши боринг', 'Кутилмаганда гуруҳимиздан чиқиб кетган',
-        'Яхши гаплашиб ўтиргандик', 'Хайр', 'Кўришгунча', 'Алвидо'
+        'Yaxshi boring', 'Kutilmaganda guruhimizni tark etgan',
+        'Yaxshi gaplashib o''tirgandik', 'Xayr', 'Alvido'
     )
     farewell = random.choice(farewells)
+    wishes = (
+        'Ishlaringizga omad',
+        'Yaxshi boring',
+        'Ko''rishguncha',
+    )
+    wish = random.choice(wishes)
     emoticons = (
         '😌', '😕', '🙁', '☹️', '😫', '😩', '😢', '🤕'
     )
@@ -76,7 +87,7 @@ async def left_chat_member_event(chat, member):
         await deactivate_user(chat.bot.pg_pool, member)
 
     await chat.send_text(
-        text.format(name=member['first_name'], farewell=farewell, emoticon=emoticon))
+        text.format(name=member['first_name'], farewell=farewell, wish=wish, emoticon=emoticon))
 
 
 @bot.default
@@ -95,4 +106,18 @@ async def about_command(chat, match):
     https://github.com/Uzbek-Developers/uzdevsbot
     ''')
     logger.info('Got about from %s', chat.sender)
+    await chat.send_text(text, disable_web_page_preview=True)
+
+
+@bot.command(r'/lotin')
+async def latin_command(chat, match):
+    text = format_text('''
+    Yaxshi o''tiribsizlarmi?
+
+    Internetda shuncha gap-so''zdan quruq qolib ketibman.
+    Bugundan boshlab men ham lotin alifbosida yozishni boshlayman. 🙃
+
+    Lotin yozuvi — kelajakdagi botlar uchun taraqqiyot kalitidir. 🤖🙌🏻
+    ''')
+    logger.info('Got latin from %s', chat.sender)
     await chat.send_text(text, disable_web_page_preview=True)
