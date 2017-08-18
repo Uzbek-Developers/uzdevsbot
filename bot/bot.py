@@ -40,13 +40,13 @@ async def new_chat_member_event(chat, member):
     {name}, {wish}. {emoticon}
     ''')
     greetings = (
-        'Assalomu alaykum', 'Salom', 'Guruhimizning yangi a''zosi',
+        'Assalomu alaykum', 'Salom', 'Guruhimizning yangi a\'zosi',
     )
     greet = random.choice(greetings)
     wishes = (
-        'guruhda faol bo''lasiz degan umiddaman',
+        'guruhda faol bo\'lasiz degan umiddaman',
         'ishlaringizga omad',
-        'yana bir hush kelibsiz',
+        'yana bir bor hush kelibsiz',
     )
     wish = random.choices(wishes)
     emoticons = (
@@ -69,13 +69,13 @@ async def left_chat_member_event(chat, member):
     ''')
     farewells = (
         'Yaxshi boring', 'Kutilmaganda guruhimizni tark etgan',
-        'Yaxshi gaplashib o''tirgandik', 'Xayr', 'Alvido'
+        'Yaxshi gaplashib o\'tirgandik', 'Xayr', 'Alvido'
     )
     farewell = random.choice(farewells)
     wishes = (
         'Ishlaringizga omad',
         'Yaxshi boring',
-        'Ko''rishguncha',
+        'Ko\'rishguncha',
     )
     wish = random.choice(wishes)
     emoticons = (
@@ -112,9 +112,9 @@ async def about_command(chat, match):
 @bot.command(r'/latin')
 async def latin_command(chat, match):
     text = format_text('''
-    Yaxshi o''tiribsizlarmi?
+    Yaxshi o\'tiribsizlarmi?
 
-    Internetda shuncha gap-so''zdan quruq qolib ketibman.
+    Eh... Internetda shuncha gap-so\'zdan quruq qolib ketibman.
     Bugundan boshlab men ham lotin alifbosida yozishni boshlayman. 🙃
 
     Lotin yozuvi — botlar taraqqiyoti uchun muhim. 🤖🙌🏻
