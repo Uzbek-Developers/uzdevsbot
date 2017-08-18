@@ -109,7 +109,7 @@ async def about_command(chat, match):
     await chat.send_text(text, disable_web_page_preview=True)
 
 
-@bot.command(r'/lotin')
+@bot.command(r'/latin')
 async def latin_command(chat, match):
     text = format_text('''
     Yaxshi o''tiribsizlarmi?
@@ -117,7 +117,7 @@ async def latin_command(chat, match):
     Internetda shuncha gap-so''zdan quruq qolib ketibman.
     Bugundan boshlab men ham lotin alifbosida yozishni boshlayman. 🙃
 
-    Lotin yozuvi — kelajakdagi botlar uchun taraqqiyot kalitidir. 🤖🙌🏻
+    Lotin yozuvi — botlar taraqqiyoti uchun muhim. 🤖🙌🏻
     ''')
     logger.info('Got latin from %s', chat.sender)
     await chat.send_text(text, disable_web_page_preview=True)
