@@ -8,8 +8,8 @@ import aiohttp
 from aiohttp import web
 import json
 
-from . chat import Chat, Sender
-from . reloader import run_with_reloader
+from .chat import Chat, Sender
+from .reloader import run_with_reloader
 
 __author__ = "Stepan Zastupov"
 __copyright__ = "Copyright 2015-2017 Stepan Zastupov"
@@ -22,16 +22,26 @@ RETRY_CODES = [429, 500, 502, 503, 504]
 
 # Message types to be handled by bot.handle(...)
 MESSAGE_TYPES = [
-    "location", "photo", "document", "audio", "voice", "sticker", "contact",
-    "venue", "video", "game", "delete_chat_photo", "new_chat_photo",
-    "delete_chat_photo", "new_chat_member", "left_chat_member",
-    "new_chat_title"
+    "location",
+    "photo",
+    "document",
+    "audio",
+    "voice",
+    "sticker",
+    "contact",
+    "venue",
+    "video",
+    "game",
+    "delete_chat_photo",
+    "new_chat_photo",
+    "delete_chat_photo",
+    "new_chat_member",
+    "left_chat_member",
+    "new_chat_title",
 ]
 
 # Update types for
-MESSAGE_UPDATES = [
-    "message", "edited_message", "channel_post", "edited_channel_post"
-]
+MESSAGE_UPDATES = ["message", "edited_message", "channel_post", "edited_channel_post"]
 
 logger = logging.getLogger("aiotg")
 
@@ -48,8 +58,7 @@ class Bot:
     _running = False
     _offset = 0
 
-    def __init__(self, api_token, api_timeout=API_TIMEOUT,
-                 botan_token=None, name=None):
+    def __init__(self, api_token, api_timeout=API_TIMEOUT, botan_token=None, name=None):
         self.api_token = api_token
         self.api_timeout = api_timeout
         self.botan_token = botan_token
@@ -87,9 +96,7 @@ class Bot:
         self._running = True
         while self._running:
             updates = await self.api_call(
-                'getUpdates',
-                offset=self._offset + 1,
-                timeout=self.api_timeout
+                "getUpdates", offset=self._offset + 1, timeout=self.api_timeout
             )
             self._process_updates(updates)
 
@@ -114,8 +121,7 @@ class Bot:
 
         try:
             if reload:
-                loop.run_until_complete(
-                    run_with_reloader(loop, self.loop(), self.stop))
+                loop.run_until_complete(run_with_reloader(loop, self.loop(), self.stop))
 
             else:
                 loop.run_until_complete(self.loop())
@@ -147,8 +153,8 @@ class Bot:
         if webhook_url:
             url = urlparse(webhook_url)
             app = self.create_webhook_app(url.path, loop)
-            host = os.environ.get('HOST', '0.0.0.0')
-            port = int(os.environ.get('PORT', 0)) or url.port
+            host = os.environ.get("HOST", "0.0.0.0")
+            port = int(os.environ.get("PORT", 0)) or url.port
             web.run_app(app, host=host, port=port)
 
     def stop_webhook(self):
@@ -175,9 +181,11 @@ class Bot:
         >>> def echo(chat, match):
         >>>     return chat.reply(match.group(1))
         """
+
         def decorator(fn):
             self.add_command(regexp, fn)
             return fn
+
         return decorator
 
     def default(self, callback):
@@ -236,12 +244,14 @@ class Bot:
             self._default_inline = callback
             return callback
         elif isinstance(callback, str):
+
             def decorator(fn):
                 self.add_inline(callback, fn)
                 return fn
+
             return decorator
         else:
-            raise TypeError('str expected {} given'.format(type(callback)))
+            raise TypeError("str expected {} given".format(type(callback)))
 
     def add_callback(self, regexp, fn):
         """
@@ -267,12 +277,14 @@ class Bot:
             self._default_callback = callback
             return callback
         elif isinstance(callback, str):
+
             def decorator(fn):
                 self.add_callback(callback, fn)
                 return fn
+
             return decorator
         else:
-            raise TypeError('str expected {} given'.format(type(callback)))
+            raise TypeError("str expected {} given".format(type(callback)))
 
     def handle(self, msg_type):
         """
@@ -284,9 +296,11 @@ class Bot:
         >>> def handle(chat, audio):
         >>>     pass
         """
+
         def wrap(callback):
             self._handlers[msg_type] = callback
             return callback
+
         return wrap
 
     def channel(self, channel_name):
@@ -335,13 +349,16 @@ class Bot:
         if response.status == 200:
             return await response.json()
         elif response.status in RETRY_CODES:
-            logger.info("Server returned %d, retrying in %d sec.",
-                        response.status, RETRY_TIMEOUT)
+            logger.info(
+                "Server returned %d, retrying in %d sec.",
+                response.status,
+                RETRY_TIMEOUT,
+            )
             await response.release()
             await asyncio.sleep(RETRY_TIMEOUT)
             return await self.api_call(method, **params)
         else:
-            if response.headers['content-type'] == 'application/json':
+            if response.headers["content-type"] == "application/json":
                 err_msg = (await response.json())["description"]
             else:
                 err_msg = await response.read()
@@ -439,11 +456,7 @@ class Bot:
         :param options: Additional getUserProfilePhotos options (see
             https://core.telegram.org/bots/api#getuserprofilephotos)
         """
-        return self.api_call(
-            "getUserProfilePhotos",
-            user_id=str(user_id),
-            **options
-        )
+        return self.api_call("getUserProfilePhotos", user_id=str(user_id), **options)
 
     def stop(self):
         self._running = False
@@ -467,24 +480,20 @@ class Bot:
         Shorthand for creating aiohttp.web.Application with registered webhook hanlde
         """
         app = web.Application(loop=loop)
-        app.router.add_route('POST', path, self.webhook_handle)
+        app.router.add_route("POST", path, self.webhook_handle)
         return app
 
     def set_webhook(self, webhook_url, **options):
         """
         Register you webhook url for Telegram service.
         """
-        return self.api_call(
-            'setWebhook',
-            url=webhook_url,
-            **options
-        )
+        return self.api_call("setWebhook", url=webhook_url, **options)
 
     def delete_webhook(self):
-        '''
+        """
         Tell Telegram to switch back to getUpdates mode
-        '''
-        return self.api_call('deleteWebhook')
+        """
+        return self.api_call("deleteWebhook")
 
     @property
     def session(self):
@@ -526,7 +535,7 @@ class Bot:
         iq = InlineQuery(self, query)
 
         for patterns, handler in self._inlines:
-            match = re.search(patterns, query['query'], re.I)
+            match = re.search(patterns, query["query"], re.I)
             if match:
                 return handler(iq, match)
         return self._default_inline(iq)
@@ -587,9 +596,9 @@ class InlineQuery:
 
     def __init__(self, bot, src):
         self.bot = bot
-        self.sender = Sender(src['from'])
-        self.query_id = src['id']
-        self.query = src['query']
+        self.sender = Sender(src["from"])
+        self.query_id = src["id"]
+        self.query = src["query"]
 
     def answer(self, results, **options):
         return self.bot.api_call(
@@ -609,13 +618,11 @@ class TgInlineQuery(InlineQuery):
 class CallbackQuery:
     def __init__(self, bot, src):
         self.bot = bot
-        self.query_id = src['id']
-        self.data = src['data']
+        self.query_id = src["id"]
+        self.data = src["data"]
         self.src = src
 
     def answer(self, **options):
         return self.bot.api_call(
-            "answerCallbackQuery",
-            callback_query_id=self.query_id,
-            **options
+            "answerCallbackQuery", callback_query_id=self.query_id, **options
         )

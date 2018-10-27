@@ -15,8 +15,7 @@ class Handler(EventHandler):
     _future_resolved = False
 
     # Common filetypes to watch
-    patterns = ["*.py", "*.txt", "*.aiml",
-                "*.json", "*.cfg", "*.xml", "*.html"]
+    patterns = ["*.py", "*.txt", "*.aiml", "*.json", "*.cfg", "*.xml", "*.html"]
 
     def __init__(self, loop, *args, **kwargs):
         self.loop = loop
@@ -36,10 +35,10 @@ class Handler(EventHandler):
 
 
 def clear_screen():
-    if os.name == 'nt':
-        seq = '\x1Bc'
+    if os.name == "nt":
+        seq = "\x1Bc"
     else:
-        seq = '\x1B[2J\x1B[H'
+        seq = "\x1B[2J\x1B[H"
 
     sys.stdout.write(seq)
 
@@ -53,11 +52,7 @@ def reload():
     except OSError:
         # Ugh, that failed
         # Try spawning a new process and exitj
-        os.spawnv(
-            os.P_NOWAIT,
-            sys.executable,
-            [sys.executable] + sys.argv,
-        )
+        os.spawnv(os.P_NOWAIT, sys.executable, [sys.executable] + sys.argv)
         os._exit(os.EX_OK)
 
 
@@ -80,8 +75,9 @@ async def run_with_reloader(loop, coroutine, cleanup=None, *args, **kwargs):
     print("    (watching {})".format(path))
 
     # Run watcher and coroutine together
-    done, pending = await asyncio.wait([coroutine, handler.changed],
-                                       return_when=asyncio.FIRST_COMPLETED)
+    done, pending = await asyncio.wait(
+        [coroutine, handler.changed], return_when=asyncio.FIRST_COMPLETED
+    )
 
     # Cleanup
     cleanup and cleanup()
